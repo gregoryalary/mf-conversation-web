@@ -70,7 +70,7 @@ const OnBoardingScreen: FC<Props> = ({ couple, onProfileSelected }) => {
                     className="cursor-pointer"
                     variant="outline"
                     size="lg"
-                    onClick={() => console.log(couple.profile1.id)}
+                    onClick={() => onProfileSelected(couple.profile1.id)}
                 >
                     {emojis[0]}
                     &nbsp;&nbsp;
