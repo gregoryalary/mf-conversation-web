@@ -69,6 +69,7 @@ const ConversationInput: FC<Props> = ({ coupleProfileIndex, isAtLimit, onSend })
                 <button
                     style={{ alignSelf: "end" }}
                     type="button"
+                    size-="large"
                     onClick={handleSend}
                     disabled={isAtLimit || !text.trim()}
                 >

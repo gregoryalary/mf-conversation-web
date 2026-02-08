@@ -66,9 +66,8 @@ const useConversationMessagesQuery = (coupleConversationId: number, currentCoupl
                             setCoupleConversationLastProfileMessageReadAtMutation(new Date(toUpsert.sentAtIsoString));
                         }
                         incrementTodayCoupleConversationMessageCountQueryData();
-
                         if (Notification.permission === "granted") {
-                            new Notification("Nouveau message", {
+                            new Notification("🌵 Nouveau message", {
                                 body: toUpsert.content || "Image / audio",
                             });
                         }
