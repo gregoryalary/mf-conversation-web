@@ -39,37 +39,15 @@ const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProf
     }, [currentMessageCount]);
 
     return (
-        <div
-            ref={containerRef}
-            style={{
-                height: "100%",
-                overflowY: "auto",
-                padding: "0.5rem",
-                display: "flex",
-                flexDirection: "column",
-                maxWidth: 1024,
-                marginRight: "auto",
-                marginLeft: "auto",
-                gap: 16,
-            }}
-        >
+        <div ref={containerRef} className="h-full flex flex-col">
             {reversedItems.map((item) => {
                 if (item.type === "date") {
                     return (
-                        <div
-                            key={item.key}
-                            style={{
-                                textAlign: "center",
-                                padding: "0.5rem 0",
-                                opacity: 0.6,
-                                fontSize: "0.85em",
-                            }}
-                        >
+                        <div key={item.key} className="text-center py-2 px-0 opacity-60 text-sm">
                             {item.formattedDate}
                         </div>
                     );
                 }
-
                 return <ConversationMessageItem key={item.key} item={item} />;
             })}
             <div ref={bottomRef} />

@@ -34,49 +34,19 @@ const ConversationInput: FC<Props> = ({ coupleProfileIndex, isAtLimit, onSend })
         }
     };
 
+    if (isAtLimit) {
+        return null;
+    }
+
     return (
-        <div
-            style={{
-                maxWidth: 1024,
-                width: "100%",
-                alignSelf: "center",
-            }}
-        >
-            <div
-                style={{
-                    display: "flex",
-                    gap: "0.4rem",
-                    padding: "0.3rem 0.5rem",
-                    flexShrink: 0,
-                }}
-            >
-                <textarea
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={isAtLimit ? "Limite de messages atteinte" : "Écrire un message..."}
-                    disabled={isAtLimit}
-                    rows={5}
-                    style={{
-                        flex: 1,
-                        resize: "none",
-                        fontFamily: "inherit",
-                        fontSize: "inherit",
-                        padding: 8,
-                        borderRadius: 2,
-                    }}
-                />
-                <button
-                    style={{ alignSelf: "end" }}
-                    type="button"
-                    size-="large"
-                    onClick={handleSend}
-                    disabled={isAtLimit || !text.trim()}
-                >
-                    Envoyer →
-                </button>
-            </div>
-        </div>
+        <textarea
+            className="max-w-3xl mx-auto w-full z-10 bg-black resize-none w-full py-2 px-3 text-sm border border-neutral-900 border-b-0 outline-none"
+            placeholder="Message..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            rows={5}
+        />
     );
 };
 

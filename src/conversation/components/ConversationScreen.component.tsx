@@ -6,6 +6,8 @@ import ConversationMessages from "@/conversation/components/ConversationMessages
 import useConversationGetCoupleConversationQuery from "@/conversation/hooks/useConversationGetCoupleConversationQuery.hook";
 import useConversationMessagesQuery from "@/conversation/hooks/useConversationMessagesQuery.hook";
 
+import ConversationBackground from "./ConversationBackground.component";
+
 type Props = {
     coupleId: number;
     coupleProfileIndex: CoupleProfileIndex;
@@ -22,12 +24,15 @@ const ConversationScreen: FC<Props> = ({ coupleId, coupleProfileIndex, currentPr
     }
 
     return (
-        <ConversationScreenInner
-            coupleConversationId={coupleConversation.id}
-            coupleProfileIndex={coupleProfileIndex}
-            currentProfile={currentProfile}
-            dailyMessageLimit={coupleConversation.settings.dailyMessageLimit}
-        />
+        <div className="h-screen">
+            <ConversationBackground />
+            <ConversationScreenInner
+                coupleConversationId={coupleConversation.id}
+                coupleProfileIndex={coupleProfileIndex}
+                currentProfile={currentProfile}
+                dailyMessageLimit={coupleConversation.settings.dailyMessageLimit}
+            />
+        </div>
     );
 };
 
@@ -62,45 +67,19 @@ const ConversationScreenInner: FC<InnerProps> = ({
     const isAtLimit = todayCount >= dailyMessageLimit;
 
     return (
-        <div
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-            }}
-        >
-            <header
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    alignSelf: "center",
-                    maxWidth: "1024px",
-                    width: "100%",
-                    flexShrink: 0,
-                    padding: "1em 0.6em",
-                    borderBottom: "1px solid var(--foreground2)",
-                    opacity: "0.5",
-                }}
-            >
-                <span>{currentProfile.name}</span>
-                <span>
-                    {todayCount} / {dailyMessageLimit}
-                </span>
-            </header>
+        <div className="flex flex-col h-full">
+            <div className="flex flex-row items-center justify-center z-10">
+                <header className="max-w-3xl mx-auto border border-neutral-900 border-t-0 flex justify-between bg-black py-3 px-5 w-full">
+                    <span className="text-white">{currentProfile.name}</span>
+                    <span>
+                        {todayCount} / {dailyMessageLimit}
+                    </span>
+                </header>
+            </div>
 
-            <div style={{ flex: 1, overflow: "hidden" }}>
+            <div className="max-w-3xl mx-auto flex-1 overflow-y-auto no-scrollbar">
                 {isLoadingCoupleConversationMessages ? (
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            height: "100%",
-                        }}
-                    >
-                        Chargement...
-                    </div>
+                    <div className="flex items-center w-center">Chargement...</div>
                 ) : (
                     <ConversationMessages
                         messages={coupleConversationMessages ?? []}

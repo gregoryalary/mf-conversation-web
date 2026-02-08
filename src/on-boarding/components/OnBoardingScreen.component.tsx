@@ -1,6 +1,39 @@
-import type { FC } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 
 import type { Couple } from "@/app/types/app.type";
+import ASCIIText from "@/bits/components/AsciiText.component";
+import { Button } from "@/shadcdn/components/ui/button";
+
+const emojiList = [
+    "❤️",
+    "🤓",
+    "😊",
+    "🎉",
+    "🌟",
+    "🔥",
+    "💫",
+    "✨",
+    "🌈",
+    "🦄",
+    "🍕",
+    "🎮",
+    "🎨",
+    "🎭",
+    "🎪",
+    "🎯",
+    "🚀",
+    "💎",
+    "🌺",
+    "🌸",
+    "🎵",
+    "🎸",
+    "⚡",
+    "💝",
+];
+
+const getRandomEmoji = (): string => {
+    return emojiList[Math.floor(Math.random() * emojiList.length)];
+};
 
 type Props = {
     couple: Couple;
@@ -8,31 +41,55 @@ type Props = {
 };
 
 const OnBoardingScreen: FC<Props> = ({ couple, onProfileSelected }) => {
+    const [emojis, setEmojis] = useState<[string, string, string, string]>(["❤️", "🤓", "😊", "🎉"]);
+    const currentIndexRef = useRef<0 | 1 | 2 | 3>(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const indexToChange = currentIndexRef.current;
+
+            setEmojis((prev) => {
+                const newEmojis: [string, string, string, string] = [...prev];
+                newEmojis[indexToChange] = getRandomEmoji();
+                return newEmojis;
+            });
+
+            currentIndexRef.current = ((currentIndexRef.current + 1) % 4) as 0 | 1 | 2 | 3;
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <div
-            style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-            }}
-        >
-            <div box-="round">
-                <h2 style={{ textAlign: "center", marginTop: 0 }}>Qui es-tu ?</h2>
-                <div
-                    style={{
-                        display: "flex",
-                        gap: "1rem",
-                        justifyContent: "center",
-                    }}
+        <div className="flex flex-col items-center justify-center p-2 gap-24 h-screen">
+            <div className="h-24 flex items-center justify-center pointer-events-none">
+                <ASCIIText text="Qui es-tu ?" enableWaves asciiFontSize={8} textFontSize={14} />
+            </div>
+            <div className="flex flex-row gap-8">
+                <Button
+                    className="cursor-pointer"
+                    variant="outline"
+                    size="lg"
+                    onClick={() => console.log(couple.profile1.id)}
                 >
-                    <button type="button" onClick={() => onProfileSelected(couple.profile1.id)}>
-                        {couple.profile1.name}
-                    </button>
-                    <button type="button" onClick={() => onProfileSelected(couple.profile2.id)}>
-                        {couple.profile2.name}
-                    </button>
-                </div>
+                    {emojis[0]}
+                    &nbsp;&nbsp;
+                    {couple.profile1.name}
+                    &nbsp;&nbsp;
+                    {emojis[1]}
+                </Button>
+                <Button
+                    className="cursor-pointer"
+                    variant="outline"
+                    size="lg"
+                    onClick={() => onProfileSelected(couple.profile2.id)}
+                >
+                    {emojis[2]}
+                    &nbsp;&nbsp;
+                    {couple.profile2.name}
+                    &nbsp;&nbsp;
+                    {emojis[3]}
+                </Button>
             </div>
         </div>
     );

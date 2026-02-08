@@ -4,13 +4,14 @@ import useAppGetCoupleQuery from "@/app/hooks/useAppGetCoupleQuery.hook";
 import type { CoupleProfileIndex } from "@/app/types/app.type";
 import ConversationScreen from "@/conversation/components/ConversationScreen.component";
 import OnBoardingScreen from "@/on-boarding/components/OnBoardingScreen.component";
+import { ThemeProvider } from "@/on-boarding/components/ThemeProvider.component";
 import useStorageQueryMutation from "@/storage/hooks/useStorageQueryMutation.hook";
 
 const COUPLE_ID = 2;
 
 const App: FC = () => {
     const { query: profileQuery, mutate: setProfileId } = useStorageQueryMutation(
-        "current-profile",
+        "current-profiles",
         (raw) => Number(raw),
         (value) => String(value),
     );
@@ -24,7 +25,11 @@ const App: FC = () => {
     const currentProfileId = profileQuery.data;
 
     if (!currentProfileId) {
-        return <OnBoardingScreen couple={couple} onProfileSelected={(profileId) => setProfileId(profileId)} />;
+        return (
+            <ThemeProvider defaultTheme="dark">
+                <OnBoardingScreen couple={couple} onProfileSelected={(profileId) => setProfileId(profileId)} />
+            </ThemeProvider>
+        );
     }
 
     const coupleProfileIndex: CoupleProfileIndex = currentProfileId === couple.profile1.id ? 1 : 2;
@@ -32,11 +37,13 @@ const App: FC = () => {
     const currentProfile = coupleProfileIndex === 1 ? couple.profile1 : couple.profile2;
 
     return (
-        <ConversationScreen
-            coupleId={COUPLE_ID}
-            coupleProfileIndex={coupleProfileIndex}
-            currentProfile={currentProfile}
-        />
+        <ThemeProvider defaultTheme="dark">
+            <ConversationScreen
+                coupleId={COUPLE_ID}
+                coupleProfileIndex={coupleProfileIndex}
+                currentProfile={currentProfile}
+            />
+        </ThemeProvider>
     );
 };
 
