@@ -61,9 +61,9 @@ const OnBoardingScreen: FC<Props> = ({ couple, onProfileSelected }) => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center p-2 gap-24 h-screen">
-            <div className="h-24 flex items-center justify-center pointer-events-none">
-                <ASCIIText text="Qui es-tu ?" enableWaves asciiFontSize={8} textFontSize={14} />
+        <div className="flex flex-col items-center justify-center p-2 h-screen">
+            <div className="h-72 relative overflow-hidden w-full">
+                <ASCIIText text="Qui es-tu ?" enableWaves asciiFontSize={8} />
             </div>
             <div className="flex flex-row gap-8">
                 <Button
