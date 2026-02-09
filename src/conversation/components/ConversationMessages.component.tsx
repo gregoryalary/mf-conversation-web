@@ -7,14 +7,16 @@ import type {
     InsertCoupleConversationMessagePayload,
 } from "@/conversation/types/conversation.type";
 import { buildConversationItems } from "@/conversation/utils/conversation.util";
+import { cn } from "@/shadcdn/lib/utils";
 
 type Props = {
+    className: string;
     messages: CoupleConversationMessage[];
     pendingMessages: InsertCoupleConversationMessagePayload[];
     coupleProfileIndex: CoupleProfileIndex;
 };
 
-const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProfileIndex }) => {
+const ConversationMessages: FC<Props> = ({ className, messages, pendingMessages, coupleProfileIndex }) => {
     const bottomRef = useRef<HTMLDivElement>(null);
     const prevMessageCountRef = useRef(0);
 
@@ -38,7 +40,7 @@ const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProf
     }, [currentMessageCount]);
 
     return (
-        <div className="pt-16 pb-42 items-center flex flex-col">
+        <div className={cn("items-center flex flex-col", className)}>
             {reversedItems.map((item) => {
                 if (item.type === "date") {
                     return (

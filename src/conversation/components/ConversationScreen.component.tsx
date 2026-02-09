@@ -162,18 +162,20 @@ const ConversationScreenInner: FC<InnerProps> = ({
 
             {isLoadingCoupleConversationMessages ? null : (
                 <ConversationMessages
+                    className={isAtLimit ? "pt-16" : "pt-16 pb-42"}
                     messages={coupleConversationMessages ?? []}
                     pendingMessages={pendingCoupleConversationPendingMessages}
                     coupleProfileIndex={coupleProfileIndex}
                 />
             )}
 
-            <ConversationInput
-                coupleConversationId={coupleConversationId}
-                coupleProfileIndex={coupleProfileIndex}
-                isAtLimit={isAtLimit}
-                onSend={insertCoupleConversationMessage}
-            />
+            {!isAtLimit && (
+                <ConversationInput
+                    coupleConversationId={coupleConversationId}
+                    coupleProfileIndex={coupleProfileIndex}
+                    onSend={insertCoupleConversationMessage}
+                />
+            )}
         </div>
     );
 };

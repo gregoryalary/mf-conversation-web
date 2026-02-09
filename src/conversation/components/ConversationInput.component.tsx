@@ -9,17 +9,16 @@ import type { InsertCoupleConversationMessagePayload } from "@/conversation/type
 type Props = {
     coupleConversationId: number;
     coupleProfileIndex: CoupleProfileIndex;
-    isAtLimit: boolean;
     onSend: (payload: InsertCoupleConversationMessagePayload) => void;
 };
 
-const ConversationInput: FC<Props> = ({ coupleProfileIndex, isAtLimit, onSend }) => {
+const ConversationInput: FC<Props> = ({ coupleProfileIndex, onSend }) => {
     const [text, setText] = useState("");
     const [isEmojiPickerVisible, setIsEmojiPickerVisible] = useState(false);
 
     const handleSend = () => {
         const trimmed = text.trim();
-        if (!trimmed || isAtLimit) return;
+        if (!trimmed) return;
 
         onSend({
             key: crypto.randomUUID(),
@@ -37,10 +36,6 @@ const ConversationInput: FC<Props> = ({ coupleProfileIndex, isAtLimit, onSend })
             handleSend();
         }
     };
-
-    if (isAtLimit) {
-        return null;
-    }
 
     return (
         <div className="fixed bottom-0 left-0 right-0 flex flex-row items-center justify-center z-10">
