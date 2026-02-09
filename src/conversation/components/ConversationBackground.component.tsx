@@ -1,15 +1,32 @@
+import { useMemo } from "react";
+
 import ColorBends from "@/bits/components/ColorBends.component";
 import DarkVeil from "@/bits/components/DarkVeil.component";
 import FaultyTerminal from "@/bits/components/FaultyTerminal.component";
 import Galaxy from "@/bits/components/Galaxy.component";
 import LetterGlitch from "@/bits/components/LetterGlitch.component";
 import PrismaticBurst from "@/bits/components/PrismaticBurst.component";
-
-const options = ["color-bends", "dark-veil", "prismatic-burst", "galaxy", "glitch", "faulty-terminal"];
-
-const randomBackground = options[Math.floor(Math.random() * options.length)];
+import useConversationBackgroundSelection, {
+    BACKGROUND_OPTIONS,
+} from "@/conversation/hooks/useConversationBackgroundSelection.hook";
 
 const ConversationBackground = () => {
+    const { selectedBackgrounds } = useConversationBackgroundSelection();
+
+    const eligible =
+        selectedBackgrounds === null
+            ? [...BACKGROUND_OPTIONS]
+            : BACKGROUND_OPTIONS.filter((o) => selectedBackgrounds.includes(o));
+
+    const randomBackground = useMemo(() => {
+        if (eligible.length === 0) return null;
+        return eligible[Math.floor(Math.random() * eligible.length)];
+    }, [eligible]);
+
+    if (!randomBackground) {
+        return null;
+    }
+
     return (
         <div className="fixed inset-0 overflow-hidden">
             <div className="w-full h-full relative">
@@ -21,8 +38,8 @@ const ConversationBackground = () => {
                         frequency={1}
                         warpStrength={1}
                         mouseInfluence={Number.MIN_VALUE}
-                        parallax={0.5}
-                        noise={0.1}
+                        parallax={0}
+                        noise={0.3}
                         transparent
                         autoRotate={0}
                     />
