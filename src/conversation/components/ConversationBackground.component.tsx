@@ -7,7 +7,7 @@ import PrismaticBurst from "@/bits/components/PrismaticBurst.component";
 
 const options = ["color-bends", "dark-veil", "prismatic-burst", "galaxy", "glitch", "faulty-terminal"];
 
-const randomBackground = "color-bends"; // options[Math.floor(Math.random() * options.length)];
+const randomBackground = options[Math.floor(Math.random() * options.length)];
 
 const ConversationBackground = () => {
     return (
