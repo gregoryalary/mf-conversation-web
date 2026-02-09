@@ -34,14 +34,14 @@ const App: FC = () => {
 
     const coupleProfileIndex: CoupleProfileIndex = currentProfileId === couple.profile1.id ? 1 : 2;
 
-    const currentProfile = coupleProfileIndex === 1 ? couple.profile1 : couple.profile2;
+    const otherProfile = coupleProfileIndex === 1 ? couple.profile2 : couple.profile1;
 
     return (
         <ThemeProvider defaultTheme="dark">
             <ConversationScreen
                 coupleId={COUPLE_ID}
                 coupleProfileIndex={coupleProfileIndex}
-                currentProfile={currentProfile}
+                otherProfile={otherProfile}
             />
         </ThemeProvider>
     );

@@ -39,14 +39,15 @@ const ConversationInput: FC<Props> = ({ coupleProfileIndex, isAtLimit, onSend })
     }
 
     return (
-        <textarea
-            className="max-w-3xl mx-auto w-full z-10 bg-black resize-none w-full py-2 px-3 text-sm border border-neutral-900 border-b-0 outline-none"
-            placeholder="Message..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            rows={5}
-        />
+        <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center justify-center z-10">
+            <textarea
+                className="max-w-3xl mx-auto h-42 rounded-t-[10px] mx-auto w-full z-10 bg-black resize-none w-full py-3 px-4 text-sm border border-neutral-900 border-b-0 outline-none"
+                placeholder="Message..."
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={handleKeyDown}
+            />
+        </div>
     );
 };
 

@@ -1,6 +1,8 @@
 import { type FC, useEffect } from "react";
 
 import type { CoupleProfileIndex, Profile } from "@/app/types/app.type";
+import Counter from "@/bits/components/Counter.component";
+import DecryptedText from "@/bits/components/DecryptedText.component";
 import ConversationInput from "@/conversation/components/ConversationInput.component";
 import ConversationMessages from "@/conversation/components/ConversationMessages.component";
 import useConversationGetCoupleConversationQuery from "@/conversation/hooks/useConversationGetCoupleConversationQuery.hook";
@@ -11,10 +13,10 @@ import ConversationBackground from "./ConversationBackground.component";
 type Props = {
     coupleId: number;
     coupleProfileIndex: CoupleProfileIndex;
-    currentProfile: Profile;
+    otherProfile: Profile;
 };
 
-const ConversationScreen: FC<Props> = ({ coupleId, coupleProfileIndex, currentProfile }) => {
+const ConversationScreen: FC<Props> = ({ coupleId, coupleProfileIndex, otherProfile }) => {
     const { getCoupleConversationQuery } = useConversationGetCoupleConversationQuery(coupleId);
 
     const coupleConversation = getCoupleConversationQuery.data;
@@ -29,7 +31,7 @@ const ConversationScreen: FC<Props> = ({ coupleId, coupleProfileIndex, currentPr
             <ConversationScreenInner
                 coupleConversationId={coupleConversation.id}
                 coupleProfileIndex={coupleProfileIndex}
-                currentProfile={currentProfile}
+                otherProfile={otherProfile}
                 dailyMessageLimit={coupleConversation.settings.dailyMessageLimit}
             />
         </div>
@@ -39,14 +41,14 @@ const ConversationScreen: FC<Props> = ({ coupleId, coupleProfileIndex, currentPr
 type InnerProps = {
     coupleConversationId: number;
     coupleProfileIndex: CoupleProfileIndex;
-    currentProfile: Profile;
+    otherProfile: Profile;
     dailyMessageLimit: number;
 };
 
 const ConversationScreenInner: FC<InnerProps> = ({
     coupleConversationId,
     coupleProfileIndex,
-    currentProfile,
+    otherProfile,
     dailyMessageLimit,
 }) => {
     useEffect(() => {
@@ -68,26 +70,40 @@ const ConversationScreenInner: FC<InnerProps> = ({
 
     return (
         <div className="flex flex-col h-full">
-            <div className="flex flex-row items-center justify-center z-10">
-                <header className="max-w-3xl mx-auto border border-neutral-900 border-t-0 flex justify-between bg-black py-3 px-5 w-full">
-                    <span className="text-white">{currentProfile.name}</span>
-                    <span>
-                        {todayCount} / {dailyMessageLimit}
-                    </span>
+            <div className="absolute top-0 left-0 right-0 flex flex-row items-center justify-center z-10">
+                <header className="h-12 rounded-b-[10px] max-w-3xl mx-auto border border-neutral-900 border-t-0 flex justify-between items-center bg-black py-3 px-5 w-full">
+                    <DecryptedText
+                        text={otherProfile.name}
+                        className="text-white text-base text-white"
+                        speed={100}
+                        animateOn="view"
+                        revealDirection="end"
+                        useOriginalCharsOnly={false}
+                        sequential={true}
+                    />
+                    <div className="text-base text-white flex flex-row items-center gap-1">
+                        <Counter
+                            fontSize={16}
+                            textColor="white"
+                            fontWeight={400}
+                            value={todayCount}
+                            gap={0}
+                            horizontalPadding={0}
+                            gradientHeight={0}
+                        />
+                        <span>/</span>
+                        <span>{dailyMessageLimit}</span>
+                    </div>
                 </header>
             </div>
 
-            <div className="max-w-3xl mx-auto flex-1 overflow-y-auto no-scrollbar">
-                {isLoadingCoupleConversationMessages ? (
-                    <div className="flex items-center w-center">Chargement...</div>
-                ) : (
-                    <ConversationMessages
-                        messages={coupleConversationMessages ?? []}
-                        pendingMessages={pendingCoupleConversationPendingMessages}
-                        coupleProfileIndex={coupleProfileIndex}
-                    />
-                )}
-            </div>
+            {isLoadingCoupleConversationMessages ? null : (
+                <ConversationMessages
+                    messages={coupleConversationMessages ?? []}
+                    pendingMessages={pendingCoupleConversationPendingMessages}
+                    coupleProfileIndex={coupleProfileIndex}
+                />
+            )}
 
             <ConversationInput
                 coupleConversationId={coupleConversationId}

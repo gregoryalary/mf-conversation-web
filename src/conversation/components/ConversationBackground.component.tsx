@@ -5,9 +5,9 @@ import Galaxy from "@/bits/components/Galaxy.component";
 import LetterGlitch from "@/bits/components/LetterGlitch.component";
 import PrismaticBurst from "@/bits/components/PrismaticBurst.component";
 
-const options = ["color-bends", "dark-veil", "prismatic-burst", "galaxy", "glitch" /*, "faulty-terminal"*/];
+const options = ["color-bends", "dark-veil", "prismatic-burst", "galaxy", "glitch", "faulty-terminal"];
 
-const randomBackground = options[Math.floor(Math.random() * options.length)];
+const randomBackground = "color-bends"; // options[Math.floor(Math.random() * options.length)];
 
 const ConversationBackground = () => {
     return (

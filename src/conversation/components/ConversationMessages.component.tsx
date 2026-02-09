@@ -39,7 +39,10 @@ const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProf
     }, [currentMessageCount]);
 
     return (
-        <div ref={containerRef} className="h-full flex flex-col">
+        <div
+            ref={containerRef}
+            className="flex-1 pt-12 pb-42 overflow-y-auto no-scrollbar items-center h-screen pt-16 flex flex-col border border-red-500"
+        >
             {reversedItems.map((item) => {
                 if (item.type === "date") {
                     return (

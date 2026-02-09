@@ -16,7 +16,7 @@ const ConversationMessageItem: FC<Props> = ({ item }) => {
     return (
         <div
             className={cn(
-                "flex flex-row",
+                "flex flex-row max-w-3xl w-full",
                 item.isReceived ? "justify-start" : "justify-end",
                 item.isNextItemAMessageSentBySameUser ? "pb-2" : "pb-4",
             )}
@@ -31,7 +31,7 @@ const ConversationMessageItem: FC<Props> = ({ item }) => {
                             </div>
                         </AlertDescription>
                     )}
-                    <AlertDescription className="text-white">{item.content}</AlertDescription>
+                    <AlertDescription className="text-white whitespace-pre-line">{item.content}</AlertDescription>
                     <AlertDescription className="text-gray-300 text-xs text-right">
                         {item.formattedSentAt}
                         {item.emojiReaction && ` ${item.emojiReaction}`}
