@@ -11,7 +11,7 @@ const randomBackground = "color-bends"; // options[Math.floor(Math.random() * op
 
 const ConversationBackground = () => {
     return (
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="fixed inset-0 overflow-hidden">
             <div className="w-full h-full relative">
                 {randomBackground === "color-bends" && (
                     <ColorBends

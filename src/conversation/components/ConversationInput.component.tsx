@@ -39,7 +39,7 @@ const ConversationInput: FC<Props> = ({ coupleProfileIndex, isAtLimit, onSend })
     }
 
     return (
-        <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center justify-center z-10">
+        <div className="fixed bottom-0 left-0 right-0 flex flex-row items-center justify-center z-10">
             <textarea
                 className="max-w-3xl mx-auto h-42 rounded-t-[10px] mx-auto w-full z-10 bg-black resize-none w-full py-3 px-4 text-sm border border-neutral-900 border-b-0 outline-none"
                 placeholder="Message..."

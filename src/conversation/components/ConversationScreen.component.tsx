@@ -26,7 +26,7 @@ const ConversationScreen: FC<Props> = ({ coupleId, coupleProfileIndex, otherProf
     }
 
     return (
-        <div className="h-screen">
+        <div>
             <ConversationBackground />
             <ConversationScreenInner
                 coupleConversationId={coupleConversation.id}
@@ -69,8 +69,8 @@ const ConversationScreenInner: FC<InnerProps> = ({
     const isAtLimit = todayCount >= dailyMessageLimit;
 
     return (
-        <div className="flex flex-col h-full">
-            <div className="absolute top-0 left-0 right-0 flex flex-row items-center justify-center z-10">
+        <div>
+            <div className="fixed top-0 left-0 right-0 flex flex-row items-center justify-center z-10">
                 <header className="h-12 rounded-b-[10px] max-w-3xl mx-auto border border-neutral-900 border-t-0 flex justify-between items-center bg-black py-3 px-5 w-full">
                     <DecryptedText
                         text={otherProfile.name}

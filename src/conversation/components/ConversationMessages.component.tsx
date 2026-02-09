@@ -16,7 +16,6 @@ type Props = {
 
 const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProfileIndex }) => {
     const bottomRef = useRef<HTMLDivElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
     const prevMessageCountRef = useRef(0);
 
     const items = buildConversationItems(messages, pendingMessages, coupleProfileIndex);
@@ -28,7 +27,7 @@ const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProf
     const currentMessageCount = messages.length + pendingMessages.length;
 
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "instant" });
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" });
     }, []);
 
     useEffect(() => {
@@ -39,10 +38,7 @@ const ConversationMessages: FC<Props> = ({ messages, pendingMessages, coupleProf
     }, [currentMessageCount]);
 
     return (
-        <div
-            ref={containerRef}
-            className="flex-1 pt-12 pb-42 overflow-y-auto no-scrollbar items-center h-screen pt-16 flex flex-col border border-red-500"
-        >
+        <div className="pt-16 pb-42 items-center flex flex-col">
             {reversedItems.map((item) => {
                 if (item.type === "date") {
                     return (
