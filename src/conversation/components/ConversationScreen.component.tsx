@@ -1,6 +1,6 @@
-import { type FC, useEffect } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 
-import { EllipsisIcon } from "lucide-react";
+import { EllipsisIcon, PauseIcon, PlayIcon } from "lucide-react";
 
 import type { CoupleProfileIndex, Profile } from "@/app/types/app.type";
 import Counter from "@/bits/components/Counter.component";
@@ -78,6 +78,9 @@ const ConversationScreenInner: FC<InnerProps> = ({
 
     const { selectedBackgrounds, toggleBackground } = useConversationBackgroundSelection();
 
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
     const todayCount = todayCoupleConversationMessageCount ?? 0;
     const isAtLimit = todayCount >= dailyMessageLimit;
 
@@ -108,6 +111,31 @@ const ConversationScreenInner: FC<InnerProps> = ({
                             <span>/</span>
                             <span>{dailyMessageLimit}</span>
                         </div>
+                        {/* biome-ignore lint/a11y/useMediaCaption: background music */}
+                        <audio
+                            ref={audioRef}
+                            autoPlay
+                            src="/background.mp3"
+                            loop
+                            preload="auto"
+                            onPlay={() => setIsPlaying(true)}
+                            onPause={() => setIsPlaying(false)}
+                        />
+                        <button
+                            type="button"
+                            className="text-white cursor-pointer"
+                            onClick={() => {
+                                const audio = audioRef.current;
+                                if (!audio) return;
+                                if (isPlaying) {
+                                    audio.pause();
+                                } else {
+                                    audio.play();
+                                }
+                            }}
+                        >
+                            {isPlaying ? <PauseIcon size={20} /> : <PlayIcon size={20} />}
+                        </button>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <button type="button" className="text-white cursor-pointer">

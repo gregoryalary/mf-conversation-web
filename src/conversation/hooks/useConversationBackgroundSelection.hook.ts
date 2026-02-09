@@ -7,6 +7,8 @@ export const BACKGROUND_OPTIONS = [
     "galaxy",
     "glitch",
     "faulty-terminal",
+    "dither",
+    "floating-lines",
 ] as const;
 
 const useConversationBackgroundSelection = () => {

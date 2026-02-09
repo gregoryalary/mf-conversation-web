@@ -1,8 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import ColorBends from "@/bits/components/ColorBends.component";
 import DarkVeil from "@/bits/components/DarkVeil.component";
+import Dither from "@/bits/components/Dither.component";
 import FaultyTerminal from "@/bits/components/FaultyTerminal.component";
+import FloatingLines from "@/bits/components/FloatingLines.component";
 import Galaxy from "@/bits/components/Galaxy.component";
 import LetterGlitch from "@/bits/components/LetterGlitch.component";
 import PrismaticBurst from "@/bits/components/PrismaticBurst.component";
@@ -10,18 +12,31 @@ import useConversationBackgroundSelection, {
     BACKGROUND_OPTIONS,
 } from "@/conversation/hooks/useConversationBackgroundSelection.hook";
 
+const getRandomColor = () => `#${(((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0")}`;
+
 const ConversationBackground = () => {
     const { selectedBackgrounds } = useConversationBackgroundSelection();
 
-    const eligible =
-        selectedBackgrounds === null
-            ? [...BACKGROUND_OPTIONS]
-            : BACKGROUND_OPTIONS.filter((o) => selectedBackgrounds.includes(o));
+    const [randomState] = useState(() => ({
+        color1: getRandomColor(),
+        color2: getRandomColor(),
+        color3: getRandomColor(),
+        value1: Math.random(),
+        value2: Math.random(),
+        value3: Math.random(),
+        value4: Math.random(),
+        value5: Math.random(),
+        value6: Math.random(),
+        value7: Math.random(),
+        value8: Math.random(),
+    }));
 
     const randomBackground = useMemo(() => {
+        if (selectedBackgrounds === null) return null;
+        const eligible = BACKGROUND_OPTIONS.filter((o) => selectedBackgrounds.includes(o));
         if (eligible.length === 0) return null;
         return eligible[Math.floor(Math.random() * eligible.length)];
-    }, [eligible]);
+    }, [selectedBackgrounds]);
 
     if (!randomBackground) {
         return null;
@@ -32,71 +47,92 @@ const ConversationBackground = () => {
             <div className="w-full h-full relative">
                 {randomBackground === "color-bends" && (
                     <ColorBends
-                        colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
-                        rotation={0}
-                        speed={0.2}
-                        frequency={1}
+                        colors={[randomState.color1, randomState.color2, randomState.color3]}
+                        rotation={randomState.value1 * 360 - 180}
+                        speed={randomState.value2 / 3 + 0.1}
+                        frequency={randomState.value3 * 0.2 + 0.9}
                         warpStrength={1}
                         mouseInfluence={Number.MIN_VALUE}
                         parallax={0}
-                        noise={0.3}
+                        noise={randomState.value4 / 3 + 0.1}
                         transparent
-                        autoRotate={0}
+                        autoRotate={randomState.value5 * 3}
                     />
                 )}
                 {randomBackground === "dark-veil" && (
                     <DarkVeil
-                        hueShift={0}
-                        noiseIntensity={0}
-                        scanlineIntensity={0}
-                        speed={0.5}
-                        scanlineFrequency={0}
-                        warpAmount={0}
+                        speed={randomState.value1 * 2}
+                        hueShift={randomState.value2 * 360}
+                        noiseIntensity={randomState.value3 / 5}
+                        scanlineIntensity={randomState.value4}
+                        scanlineFrequency={randomState.value5 * 5}
+                        warpAmount={randomState.value2 * 5}
                     />
                 )}
                 {randomBackground === "prismatic-burst" && (
                     <PrismaticBurst
+                        colors={[randomState.color1, randomState.color2, randomState.color3]}
                         animationType="rotate3d"
-                        intensity={2}
-                        speed={0.2}
-                        distort={0}
-                        paused={false}
-                        rayCount={0}
-                        colors={["green", "red", "blue"]}
+                        intensity={randomState.value1 * 5 + 1}
+                        speed={randomState.value2 * 0.5}
+                        distort={randomState.value3 * 10}
+                        rayCount={randomState.value4 * 20}
                     />
                 )}
                 {randomBackground === "galaxy" && (
-                    <Galaxy mouseInteraction={false} mouseRepulsion={false} saturation={1} rotationSpeed={0.1} />
+                    <Galaxy
+                        mouseInteraction={false}
+                        mouseRepulsion={false}
+                        density={randomState.value1 * 3}
+                        glowIntensity={randomState.value2}
+                        saturation={randomState.value3}
+                        hueShift={randomState.value4}
+                        speed={randomState.value5}
+                        twinkleIntensity={randomState.value6}
+                    />
                 )}
                 {randomBackground === "glitch" && (
                     <LetterGlitch
-                        glitchColors={["#2f5343", "#17392a", "#1a485d"]}
-                        glitchSpeed={100}
-                        centerVignette={false}
-                        outerVignette={true}
+                        glitchColors={[randomState.color1, randomState.color2, randomState.color3]}
                         smooth={true}
+                        glitchSpeed={randomState.value1 * 100}
+                        centerVignette={randomState.value2 > 0.5}
+                        outerVignette={randomState.value3 > 0.5}
                         characters="mélaniefrézal"
                     />
                 )}
                 {randomBackground === "faulty-terminal" && (
                     <FaultyTerminal
-                        scale={1.5}
-                        gridMul={[2, 1]}
-                        digitSize={1.2}
-                        timeScale={0.5}
-                        pause={false}
-                        scanlineIntensity={0.5}
-                        glitchAmount={1}
-                        flickerAmount={1}
-                        noiseAmp={1}
-                        chromaticAberration={0}
-                        dither={0}
-                        curvature={0.1}
-                        tint="#842466"
+                        tint={randomState.color1}
+                        scale={randomState.value1 + 2}
+                        digitSize={randomState.value5 * 3}
+                        noiseAmp={randomState.value2}
+                        brightness={1}
+                        scanlineIntensity={randomState.value3}
+                        curvature={randomState.value4 / 2}
                         mouseReact={false}
-                        mouseStrength={0.5}
-                        pageLoadAnimation
-                        brightness={0.6}
+                    />
+                )}
+                {randomBackground === "dither" && (
+                    <Dither
+                        waveColor={[randomState.value1, randomState.value2, randomState.value3]}
+                        disableAnimation={false}
+                        enableMouseInteraction={false}
+                        mouseRadius={0.3}
+                        waveAmplitude={randomState.value4 * 0.3 + 0.1}
+                        waveFrequency={randomState.value5 + 5}
+                        waveSpeed={randomState.value6 * 0.01 * 3}
+                        colorNum={randomState.value7 * 20 + 10}
+                    />
+                )}
+                {randomBackground === "floating-lines" && (
+                    <FloatingLines
+                        enabledWaves={["top", "middle", "bottom"]}
+                        lineCount={randomState.value1 * 10 + 1}
+                        lineDistance={randomState.value2 * 60 + 40}
+                        bendRadius={randomState.value3 * 100}
+                        bendStrength={randomState.value4 * 100}
+                        interactive={false}
                     />
                 )}
             </div>
